@@ -124,11 +124,15 @@ function getPasswordOptions() {
       allFalse = false;
     }
   }
-  console.log(lower, upper, numeric, special);
+  return [parseInt(passwordLenght), lower, upper, numeric, special]
 }
 getPasswordOptions();
+
 // Function for getting a random element from an array
-function getRandom(arr) {}
+function getRandom(arr) {
+  var randomElement = Math.floor(Math.random() * (length(arr) + 1))
+  return randomElement
+}
 
 // Function to generate password with user input
 function generatePassword() {}
