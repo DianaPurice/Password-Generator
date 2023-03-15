@@ -101,19 +101,30 @@ function getPasswordOptions() {
       console.log("Password too long!");
     }
   }
-  var lower = confirm(
-    "Would you like your password to include lowercase characters? (Press 'OK' if you do and 'CANCEL' if you don't.)"
-  );
-  var upper = confirm(
-    "Would you like your password to include uppercase characters? (Press 'OK' if you do and 'CANCEL' if you don't.)"
-  );
-  var numeric = confirm(
-    "Would you like your password to include numeric characters? (Press 'OK' if you do and 'CANCEL' if you don't.)"
-  );
-  var special = confirm(
-    "Would you like your password to include special characters? (Press 'OK' if you do and 'CANCEL' if you don't.)"
-  );
-  
+  var lower = false;
+  var upper = false;
+  var numeric = false;
+  var special = false;
+  var allFalse = true;
+  while (allFalse) {
+    alert("Please to select at least one type of characters:");
+    var lower = confirm(
+      "Would you like your password to include lowercase characters? (Press 'OK' if you do and 'CANCEL' if you don't.)"
+    );
+    var upper = confirm(
+      "Would you like your password to include uppercase characters? (Press 'OK' if you do and 'CANCEL' if you don't.)"
+    );
+    var numeric = confirm(
+      "Would you like your password to include numeric characters? (Press 'OK' if you do and 'CANCEL' if you don't.)"
+    );
+    var special = confirm(
+      "Would you like your password to include special characters? (Press 'OK' if you do and 'CANCEL' if you don't.)"
+    );
+    if (lower == true || upper == true || numeric == true || special == true) {
+      allFalse = false;
+    }
+  }
+  console.log(lower, upper, numeric, special);
 }
 getPasswordOptions();
 // Function for getting a random element from an array
