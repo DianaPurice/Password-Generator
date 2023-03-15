@@ -51,7 +51,7 @@ header {
 }
 
 .card-body {
-  min-height: 100px;
+  min-height: 120px;
 }
 
 .card-footer {
@@ -127,6 +127,12 @@ button[disabled] {
 
   #password {
     font-size: 1rem;
+  }
+  .card-body {
+    min-height: 180px;
+  }
+  #password {
+    min-height: 180px;
   }
 }
 
