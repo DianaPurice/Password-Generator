@@ -92,65 +92,91 @@ var upperCasedCharacters = [
 function getPasswordOptions() {
   // Variable for the length of the password
   var passwordLenght = 0;
-  // Loop that verifies if the password has more than 8 characters but no more than 128
-  while (passwordLenght < 8 || passwordLenght > 128) {
+  // Loop that prompts the user to enter the lenght of the password
+  while (passwordLenght !== null) {
     // Prompt for the user to enter the length of the password
     passwordLenght = prompt(
       "How long would you like the password to be? (8 - 128 characters)"
     );
-    // Alert to let the user know if the password is too short
-    if (passwordLenght < 8) {
-      console.log("Password too short!");
-    // Alert to let the user know if the password is too long
-    } else if (passwordLenght > 128) {
-      console.log("Password too long!");
+    // If statement to break out of the loop if the user selects cancel
+    if (passwordLenght === null) {
+      // Return null if user dosen't wish to continue
+      return null;
+    } else {
+      // Convert the user input to a number
+      passwordLenght = Number(passwordLenght);
+      // If statement to check if the user has inputed a number
+      if (String(passwordLenght) == "NaN") {
+        alert("Please enter a number!");
+      }
+      // Alert to let the user know if the password is too short
+      else if (passwordLenght < 8) {
+        alert("Password too short!");
+      }
+      // Alert to let the user know if the password is too long
+      else if (passwordLenght > 128) {
+        alert("Password too long!");
+      } else {
+        // Variables for each kind of characters
+        var lower = false;
+        var upper = false;
+        var numeric = false;
+        var special = false;
+        // Variable to check if all the character variables are false
+        var allFalse = true;
+        // Loop used to obtain the character types the user wants to use and to verify that at least one of them is selected
+        while (allFalse) {
+          // Alert to inform the user to choose at least one type of characters
+          alert("Please to select at least one type of characters:");
+          // Confirmation of use of the lowercase characters
+          var lower = confirm(
+            "Would you like your password to include lowercase characters? <br> (Press 'OK' if you do and 'CANCEL' if you don't.)"
+          );
+          // Confirmation of use of the uppercase characters
+          var upper = confirm(
+            "Would you like your password to include uppercase characters? (Press 'OK' if you do and 'CANCEL' if you don't.)"
+          );
+          // Confirmation of use of the numeric characters
+          var numeric = confirm(
+            "Would you like your password to include numeric characters? (Press 'OK' if you do and 'CANCEL' if you don't.)"
+          );
+          // Confirmation of use of the special characters
+          var special = confirm(
+            "Would you like your password to include special characters? (Press 'OK' if you do and 'CANCEL' if you don't.)"
+          );
+          // If statement to change the status of the variable that checks if all the character variable are false
+          if (
+            lower == true ||
+            upper == true ||
+            numeric == true ||
+            special == true
+          ) {
+            allFalse = false;
+          } else {
+            if (
+              confirm(
+                "No character type was selected. Would you like to select one?"
+              ) === false
+            ) {
+              // Return null if user dosen't wish to continue
+              return null;
+            }
+          }
+        }
+        // Object for user input
+        var passwordOptions = {
+          Length: passwordLenght,
+          Lowercase: lower,
+          UpperCase: upper,
+          Numeric: numeric,
+          Special: special,
+        };
+        // Return statement of the object
+        return passwordOptions;
+      }
     }
   }
-  // Variables for each kind of characters
-  var lower = false;
-  var upper = false;
-  var numeric = false;
-  var special = false;
-  // Variable to check if all the character variables are false
-  var allFalse = true;
-  // Loop used to obtain the character types the user wants to use and to verify that at least one of them is selected
-  while (allFalse) {
-    // Alert to inform the user to choose at least one type of characters
-    alert("Please to select at least one type of characters:");
-    // Confirmation of use of the lowercase characters
-    var lower = confirm(
-      "Would you like your password to include lowercase characters? (Press 'OK' if you do and 'CANCEL' if you don't.)"
-    );
-    // Confirmation of use of the uppercase characters
-    var upper = confirm(
-      "Would you like your password to include uppercase characters? (Press 'OK' if you do and 'CANCEL' if you don't.)"
-    );
-    // Confirmation of use of the numeric characters
-    var numeric = confirm(
-      "Would you like your password to include numeric characters? (Press 'OK' if you do and 'CANCEL' if you don't.)"
-    );
-    // Confirmation of use of the special characters
-    var special = confirm(
-      "Would you like your password to include special characters? (Press 'OK' if you do and 'CANCEL' if you don't.)"
-    );
-    // If statement to change the status of the variable that checks if all the character variable are false
-    if (lower == true || upper == true || numeric == true || special == true) {
-      allFalse = false;
-    }
-  }
-  // Object for user input
-  var passwordOptions = {
-    Length: parseInt(passwordLenght),
-    Lowercase: lower,
-    UpperCase: upper,
-    Numeric: numeric,
-    Special: special,
-  };
-  // Return statement of the object
-  return passwordOptions;
 }
-
-
 // Function for getting a random element from an array
 function getRandom(arr) {
   // Variable for the random funtion
@@ -167,30 +193,33 @@ function generatePassword() {
   var password = "";
   // Variable for the character arrays to be used
   var differentCharacters = [];
-  // If statements for the user selected character arrays
-  if (passwordOptions.Special == true) {
-    differentCharacters.push(specialCharacters);
+  // if statement to check if the user selected any character types
+  if (passwordOptions !== null) {
+    // If statements for the user selected character arrays
+    if (passwordOptions.Special == true) {
+      differentCharacters.push(specialCharacters);
+    }
+    if (passwordOptions.Numeric == true) {
+      differentCharacters.push(numericCharacters);
+    }
+    if (passwordOptions.Lowercase == true) {
+      differentCharacters.push(lowerCasedCharacters);
+    }
+    if (passwordOptions.UpperCase == true) {
+      differentCharacters.push(upperCasedCharacters);
+    }
+    // For loop to generate the password
+    for (i = 0; i < passwordOptions.Length; i++) {
+      // Variable for a random integer of the array to be selected each loop
+      var chooseArray = getRandom(differentCharacters);
+      // Variable for a random integer of the character to be selected each loop from the selected array
+      var chooseCharacter = getRandom(differentCharacters[chooseArray]);
+      // Password creation
+      password += differentCharacters[chooseArray][chooseCharacter];
+    }
+    // Return of the password
+    return password;
   }
-  if (passwordOptions.Numeric == true) {
-    differentCharacters.push(numericCharacters);
-  }
-  if (passwordOptions.Lowercase == true) {
-    differentCharacters.push(lowerCasedCharacters);
-  }
-  if (passwordOptions.UpperCase == true) {
-    differentCharacters.push(upperCasedCharacters);
-  }
-  // For loop to generate the password
-  for (i = 0; i < passwordOptions.Length; i++) {
-    // Variable for a random integer of the array to be selected each loop
-    var chooseArray = getRandom(differentCharacters);
-    // Variable for a random integer of the character to be selected each loop from the selected array
-    var chooseCharacter = getRandom(differentCharacters[chooseArray]);
-    // Password creation
-    password += differentCharacters[chooseArray][chooseCharacter];
-  }
-  // Return of the password
-  return password;
 }
 
 // Get references to the #generate element
@@ -200,6 +229,10 @@ var generateBtn = document.querySelector("#generate");
 function writePassword() {
   // Variable for the password created
   var password = generatePassword();
+  // If statement to return the same text as in the html
+  if (!password) {
+    password = "Your Secure Password";
+  }
   // Variable for selecting the html element
   var passwordText = document.querySelector("#password");
   // Write the password into the html element
