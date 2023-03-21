@@ -9,7 +9,7 @@ The application generates a password based on the user's criteria.
 
 <br><br>
 The application does not need any instalation.
-it can be viewed at:
+It can be viewed at: https://dianapurice.github.io/Password-Generator/
 
 ## Usage
 
