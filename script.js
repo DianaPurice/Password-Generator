@@ -130,7 +130,7 @@ function getPasswordOptions() {
           alert("Please to select at least one type of characters:");
           // Confirmation of use of the lowercase characters
           var lower = confirm(
-            "Would you like your password to include lowercase characters? <br> (Press 'OK' if you do and 'CANCEL' if you don't.)"
+            "Would you like your password to include lowercase characters? (Press 'OK' if you do and 'CANCEL' if you don't.)"
           );
           // Confirmation of use of the uppercase characters
           var upper = confirm(
